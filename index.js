@@ -49,7 +49,7 @@ app.post("/api/sessions", async (req, res) => {
 
   try {
     // unique ref for the transaction
-    const orderRef = uuid();
+    const orderRef = `CBRTEST_${uuid()}`;
     // Ideally the data passed here should be computed based on business logic
     const response = await checkout.sessions({
       amount: { currency: "EUR", value: 1000 }, // value is 10€ in minor units
