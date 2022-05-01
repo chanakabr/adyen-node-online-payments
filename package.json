@@ -22,7 +22,8 @@
     "morgan": "^1.10.0",
     "node-gyp": "^8.0.0",
     "uuidv4": "^6.1.1",
-    "undefsafe": "~2.0.5"
+    "undefsafe": "~2.0.5",
+    "kaltura-ott-client": "^6.5.0-29184"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

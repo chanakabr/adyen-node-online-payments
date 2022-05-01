@@ -106,7 +106,7 @@ async function startCheckoutWithKaltura() {
       "paymentGatewayId": 551
     }
 
-    if ( intent === 'addcard' ) {
+    if ( cintentat === 'addcard' ) {
       payload['intent'] = 'AddCard'
     }
 

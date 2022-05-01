@@ -6,6 +6,8 @@ const morgan = require("morgan");
 const { uuid } = require("uuidv4");
 const { hmacValidator } = require('@adyen/api-library');
 const { Client, Config, CheckoutAPI } = require("@adyen/api-library");
+const kalturabeconfig = require('./kalturabeconfig.js');
+//const kalturabeproxy = require('./kalturabeproxy.js');
 
 // init app
 const app = express();
@@ -114,6 +116,11 @@ app.get("/", (req, res) => res.render("index"));
 app.get("/preview", (req, res) =>
   res.render("preview", {
     type: req.query.type,
+    clientKey: process.env.ADYEN_CLIENT_KEY,
+    intent:req.query.intent,
+    user:req.query.user,
+    pass:req.query.pass,
+    udid:req.query.udid    
   })
 );
 
@@ -121,7 +128,23 @@ app.get("/preview", (req, res) =>
 app.get("/checkout", (req, res) =>
   res.render("checkout", {
     type: req.query.type,
-    clientKey: process.env.ADYEN_CLIENT_KEY
+    clientKey: process.env.ADYEN_CLIENT_KEY,
+    intent:req.query.intent,
+    user:req.query.user,
+    pass:req.query.pass,
+    udid:req.query.udid    
+  })
+);
+
+// Checkout page (make a payment)
+app.get("/checkoutaddcard", (req, res) =>
+  res.render("checkout", {
+    type: req.query.type,
+    clientKey: process.env.ADYEN_CLIENT_KEY,
+    intent:req.query.intent,
+    user:req.query.user,
+    pass:req.query.pass,
+    udid:req.query.udid        
   })
 );
 
