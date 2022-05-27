@@ -1,9 +1,12 @@
+const { json } = require("express");
+
 const clientKey = document.getElementById("clientKey").innerHTML;
 const type = document.getElementById("type").innerHTML;
 const intent = document.getElementById("intent").innerHTML;
 const user = document.getElementById("user").innerHTML;
 const pass = document.getElementById("pass").innerHTML;
 const udid = document.getElementById("udid").innerHTML;
+const invokeres = document.getElementById("invokeres").innerHTML;
 
 // Used to finalize a checkout call in case of redirect
 const urlParams = new URLSearchParams(window.location.search);
@@ -35,97 +38,19 @@ async function startCheckout() {
 
 async function startCheckoutWithKaltura() {
   try {
-    // Create Kaltura Request Payload
-    var url = 'https://api.frs1.ott.kaltura.com/api_v3/service/ottuser/action/login';
-    var payload = {
-      "apiVersion": "6.8.0",
-      "extra_params": {},
-      "partnerId": 3223,
-      "password": password,
-      "udid": udid,
-      "username": username
-    }
-    const loginres = await callServer(url, payload);
-    console.log(JSON.stringify(loginres));
-
-    var ks = loginres.result.loginSession.ks;
-    var userId = loginres.result.user.id;
-    var householdId = loginres.result.user.householdId;
-
-    var url = 'https://api.frs1.ott.kaltura.com/api_v3/service/householdPaymentGateway/action/invoke'
-    var payload = {
-      "apiVersion": "6.8.0",
-      "extraParameters": [
-          {
-              "key": "UserId",
-              "value": userId
-          },
-          {
-              "key": "householdId",
-              "value": householdId
-          },
-          {
-              "key": "contentId",
-              "value": 0
-          },
-          {
-              "key": "ProductId",
-              "value": 123457003
-          },
-          {
-              "key": "paymentAmount",
-              "value": 7.9
-          },
-          {
-              "key": "currencyCode",
-              "value": "CHF"
-          },
-          {
-              "key": "transactionType",
-              "value": "subscription"
-          },
-          {
-              "key": "shopperEmail",
-              "value": "frs1_cbrtest_1649686841@mailinator.com"
-          },
-          {
-              "key": "merchantReturnData",
-              "value": "12345"
-          },
-          {
-              "key": "couponCode",
-              "value": ""
-          },
-          {
-              "key": "countryCode",
-              "value": "CH"
-          }
-      ],
-      "intent": "FirstPurchase",
-      "ks": ks,
-      "paymentGatewayId": 551
-    }
-
-    if ( intent === 'addcard' ) {
-      payload['intent'] = 'AddCard'
-    }
-
-    console.log(`INVOKE:`)
-    console.log(url);
-    console.log(JSON.stringify(payload));
-    const invokeres = await callServer(url, payload);
-    console.log(JSON.stringify(invokeres));
-
     // Build the checkoutSession
     var session = {}
 
-    if ('result' in invokeres && 'paymentGatewayConfiguration' in invokeres.result) {
-      invokeres.result.paymentGatewayConfiguration.forEach((entry) => {
+    if (invokeres !== null){
+      console.log(`invokeres:`+invokeres);
+      console.log(`invokeresdecoded:`+decodeURIComponent(window.atob( invokeres )));
+
+      decodeURIComponent(window.atob( invokeres )).forEach((entry) => {
         var k0 = ""
         var v0 = ""
         Object.entries(entry).forEach(([key, value]) => {
           if (key==="key") {
-          	k0 = value;
+            k0 = value;
           }
           if (key==="value"){
             v0 = value;
@@ -135,8 +60,106 @@ async function startCheckoutWithKaltura() {
         console.log(`${k0}:::${v0}`)
         session[k0]=v0;
       });
-    }
+    } else if (username !== null && password !== null && udid != null){
+      // Create Kaltura Request Payload
+      var url = 'https://api.frs1.ott.kaltura.com/api_v3/service/ottuser/action/login';
+      var payload = {
+        "apiVersion": "6.8.0",
+        "extra_params": {},
+        "partnerId": 3223,
+        "password": password,
+        "udid": udid,
+        "username": username
+      }
+      const loginres = await callServer(url, payload);
+      console.log(JSON.stringify(loginres));
 
+      var ks = loginres.result.loginSession.ks;
+      var userId = loginres.result.user.id;
+      var householdId = loginres.result.user.householdId;
+
+      var url = 'https://api.frs1.ott.kaltura.com/api_v3/service/householdPaymentGateway/action/invoke'
+      var payload = {
+        "apiVersion": "6.8.0",
+        "extraParameters": [
+            {
+                "key": "UserId",
+                "value": userId
+            },
+            {
+                "key": "householdId",
+                "value": householdId
+            },
+            {
+                "key": "contentId",
+                "value": 0
+            },
+            {
+                "key": "ProductId",
+                "value": 123457003
+            },
+            {
+                "key": "paymentAmount",
+                "value": 7.9
+            },
+            {
+                "key": "currencyCode",
+                "value": "CHF"
+            },
+            {
+                "key": "transactionType",
+                "value": "subscription"
+            },
+            {
+                "key": "shopperEmail",
+                "value": "frs1_cbrtest_1649686841@mailinator.com"
+            },
+            {
+                "key": "merchantReturnData",
+                "value": "12345"
+            },
+            {
+                "key": "couponCode",
+                "value": ""
+            },
+            {
+                "key": "countryCode",
+                "value": "CH"
+            }
+        ],
+        "intent": "FirstPurchase",
+        "ks": ks,
+        "paymentGatewayId": 551
+      }
+
+      if ( intent === 'addcard' ) {
+        payload['intent'] = 'AddCard'
+      }
+
+      console.log(`INVOKE:`)
+      console.log(url);
+      console.log(JSON.stringify(payload));
+      const invokeres = await callServer(url, payload);
+      console.log(JSON.stringify(invokeres));
+
+      if ('result' in invokeres && 'paymentGatewayConfiguration' in invokeres.result) {
+        invokeres.result.paymentGatewayConfiguration.forEach((entry) => {
+          var k0 = ""
+          var v0 = ""
+          Object.entries(entry).forEach(([key, value]) => {
+            if (key==="key") {
+              k0 = value;
+            }
+            if (key==="value"){
+              v0 = value;
+            }
+            console.log(`${key}: ${value}`);
+          });
+          console.log(`${k0}:::${v0}`)
+          session[k0]=v0;
+        });
+      }
+    }
     console.log(session);
 
     // Create AdyenCheckout using Sessions response

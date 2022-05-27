@@ -120,7 +120,8 @@ app.get("/preview", (req, res) =>
     intent:req.query.intent,
     user:req.query.user,
     pass:req.query.pass,
-    udid:req.query.udid    
+    udid:req.query.udid,
+    invokeres:req.query.invokeres
   })
 );
 
@@ -132,7 +133,9 @@ app.get("/checkout", (req, res) =>
     intent:req.query.intent,
     user:req.query.user,
     pass:req.query.pass,
-    udid:req.query.udid    
+    udid:req.query.udid,
+    invokeres:req.query.invokeres
+
   })
 );
 
@@ -144,7 +147,8 @@ app.get("/checkoutaddcard", (req, res) =>
     intent:req.query.intent,
     user:req.query.user,
     pass:req.query.pass,
-    udid:req.query.udid        
+    udid:req.query.udid,
+    invokeres:req.query.invokeres
   })
 );
 

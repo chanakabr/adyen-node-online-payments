@@ -16,7 +16,7 @@
       <!--
       <a href="/preview?type=dropin&intent=firstpurchase&user=document.getElementById('user').value" class="integration-list-item-link">
         -->
-        <a href="javascript:;" onclick = "this.href='/preview?type=dropin&intent=firstpurchase&user=' + document.getElementById('user').value + '&pass=' + document.getElementById('pass').value  + '&udid=' + document.getElementById('udid').value" class="integration-list-item-link">
+        <a href="javascript:;" onclick = "this.href='/preview?type=dropin&intent=firstpurchase&user=' + document.getElementById('user').value + '&pass=' + document.getElementById('pass').value  + '&udid=' + document.getElementById('udid').value   + '&invokeres=' + document.getElementById('invokeres').value" class="integration-list-item-link">
         <div class="title-container">
           <p class="integration-list-item-title">Drop-in FIRSTPURCHASE</p>
         </div>
@@ -24,7 +24,7 @@
 
     </li>
     <li class="integration-list-item">
-      <a href="javascript:;" onclick = "this.href='/checkoutaddcard?type=dropin&intent=addcard&user=' + document.getElementById('user').value" class="integration-list-item-link">
+      <a href="javascript:;" onclick = "this.href='/checkoutaddcard?type=dropin&intent=addcard&user=' + document.getElementById('user').value   + '&invokeres=' + document.getElementById('invokeres').value" class="integration-list-item-link">
 
       <!--<a href="/checkoutaddcard?type=dropin&intent=addcard" class="integration-list-item-link">-->
         <div class="title-container">
@@ -118,14 +118,16 @@
     </li>
   </ul>
   <div class="kalturauserinfo">
-    <h3>UserDetails</h3>
+    <h3>Kaltura BE Details</h3>
     <p>
+    <label for="invokeres">invoke res:</label>
+    <input name="user" type="text" id="invokeres"/>
     <label for="user">user:</label>
     <input name="user" type="text" id="user"/>
-    <label for="pass">pass:</label>    
+    <label for="pass">pass:</label>
     <input name="pass" type="text" id="pass"/>
-    <label for="udid">udid:</label>    
-    <input name="udid" type="text" id="udid"/>   
-    </p>    
-  </div>  
+    <label for="udid">udid:</label>
+    <input name="udid" type="text" id="udid"/>
+    </p>
+  </div>
 </div>
