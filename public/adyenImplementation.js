@@ -1,5 +1,3 @@
-const { json } = require("express");
-
 const clientKey = document.getElementById("clientKey").innerHTML;
 const type = document.getElementById("type").innerHTML;
 const intent = document.getElementById("intent").innerHTML;
