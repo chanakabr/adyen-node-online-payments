@@ -41,7 +41,7 @@ async function startCheckoutWithKaltura() {
 
     if (invokeres !== null){
       console.log(`invokeres:`+invokeres);
-      invokesdec=Buffer.from(invokeres,"base64");
+      invokesdec=decodeURIComponent(window.atob( invokeres ));
       console.log(`invokeresdecoded:`+invokesdec);
 
       invokesdec.result.paymentGatewayConfiguration.forEach((entry) => {
