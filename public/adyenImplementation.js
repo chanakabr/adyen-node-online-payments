@@ -41,24 +41,29 @@ async function startCheckoutWithKaltura() {
 
     if (invokeres !== null){
       console.log(`invokeres:`+invokeres);
-      invokesdec=decodeURIComponent(window.atob( invokeres ));
+      invokesdec=JSON.parse(decodeURIComponent(window.atob( invokeres )));
       console.log(`invokeresdecoded:`+invokesdec);
 
-      invokesdec.result.paymentGatewayConfiguration.forEach((entry) => {
-        var k0 = ""
-        var v0 = ""
-        Object.entries(entry).forEach(([key, value]) => {
-          if (key==="key") {
-            k0 = value;
-          }
-          if (key==="value"){
-            v0 = value;
-          }
-          console.log(`${key}: ${value}`);
+      if ('result' in invokesdec && 'paymentGatewayConfiguration' in invokesdec.result) {
+        invokesdec.result.paymentGatewayConfiguration.forEach((entry) => {
+          var k0 = ""
+          var v0 = ""
+          Object.entries(entry).forEach(([key, value]) => {
+            if (key==="key") {
+              k0 = value;
+            }
+            if (key==="value"){
+              v0 = value;
+            }
+            console.log(`${key}: ${value}`);
+          });
+          console.log(`${k0}:::${v0}`)
+          session[k0]=v0;
         });
-        console.log(`${k0}:::${v0}`)
-        session[k0]=v0;
-      });
+      } else {
+        console.log(`INVALID INVOKERES DECODED`);
+      }
+
     } else if (username !== null && password !== null && udid != null){
       // Create Kaltura Request Payload
       var url = 'https://api.frs1.ott.kaltura.com/api_v3/service/ottuser/action/login';
