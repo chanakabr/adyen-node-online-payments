@@ -1,9 +1,9 @@
 const clientKey = document.getElementById("clientKey").innerHTML;
 const type = document.getElementById("type").innerHTML;
-const intent = document.getElementById("intent").innerHTML;
-const user = document.getElementById("user").innerHTML;
-const pass = document.getElementById("pass").innerHTML;
-const udid = document.getElementById("udid").innerHTML;
+//const intent = document.getElementById("intent").innerHTML;
+//const user = document.getElementById("user").innerHTML;
+//const pass = document.getElementById("pass").innerHTML;
+//const udid = document.getElementById("udid").innerHTML;
 const invokeres = document.getElementById("invokeres").innerHTML;
 
 // Used to finalize a checkout call in case of redirect
@@ -12,8 +12,8 @@ const sessionId = urlParams.get('sessionId'); // Unique identifier for the payme
 const redirectResult = urlParams.get('redirectResult');
 
 // Kalutra params -- FILL
-const username = user; //"frs1_cbrtest_1650554741";
-const password = pass; //"123456";
+// const username = user; //"frs1_cbrtest_1650554741";
+// const password = pass; //"123456";
 // const udid = "80B464A89BE047F186D7040F7AE33FBC";
 
 async function startCheckout() {
@@ -63,8 +63,8 @@ async function startCheckoutWithKaltura() {
       } else {
         console.log(`INVALID INVOKERES DECODED`);
       }
-
-    } else if (username !== null && password !== null && udid != null){
+    }
+    /*else if (username !== null && password !== null && udid != null){
       // Create Kaltura Request Payload
       var url = 'https://api.frs1.ott.kaltura.com/api_v3/service/ottuser/action/login';
       var payload = {
@@ -164,6 +164,7 @@ async function startCheckoutWithKaltura() {
         });
       }
     }
+    */
     console.log(session);
 
     // Create AdyenCheckout using Sessions response
@@ -301,15 +302,18 @@ console.log("sessionID:");
 console.log(sessionId);
 console.log("type:");
 console.log(type);
+console.log('invokeres b64:');
+console.log(invokeres);
+console.log('invokeres decoded:');
+console.log(JSON.parse(decodeURIComponent(window.atob( invokeres ))))
 console.log("intent:");
-console.log(intent);
+/* console.log(intent);
 console.log("user:");
 console.log(user);
 console.log("pass:");
 console.log(pass);
 console.log("udid:");
-console.log(udid);
-
+console.log(udid); */
 
 
 if (!sessionId) {

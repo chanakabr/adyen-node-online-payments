@@ -1,17 +1,31 @@
 <div class='main-container'>
   <div class="info">
-    <h1>Select a demo</h1>
-    <p>Click to view an interactive example of a PCI-compliant UI integration for online payments.</p>
+    <h1>Adyen DropIn Integration Test Application</h1>
+    <h3>Prerequisite:</h3>
+    <p>This Application's Adyen configuration matches with the Adyen Adapter configuration used to create the below session Data </p>
+    <h3>Usage:</h3>
+    <ul>
+      <li>Do the invoke API</li>
+      <li>Base64 the response</li>
+      <li>Copy the base64 encoded value into the below text box</li>
+      <li>Select Purchase</li>
+    </ul>
+  </div>
+  <div class="kalturauserinfo">
+    <h3>Invoke Response</h3>
     <p>
-      Make sure the payment method you want to use are enabled for your account.
-      Refer <a href="https://docs.adyen.com/payment-methods#add-payment-methods-to-your-account">the documentation</a>
-      to add missing
-      payment methods.
+    <label for="invokeres">invoke res in base64:</label>
+    <textarea id="invokeres" name="invokeres" rows="30" cols="100"></textarea>
     </p>
-    <p>To learn more about client-side integration solutions, check out <a href="https://docs.adyen.com/checkout">Online
-        payments.</a></p>
   </div>
   <ul class="integration-list">
+    <li class="integration-list-item">
+    <a href="javascript:;" onclick = "this.href='/checkout?type=dropin&intent=firstpurchase&invokeres=' + document.getElementById('invokeres').value" class="integration-list-item-link">
+        <div class="title-container">
+          <p class="integration-list-item-title">Checkout</p>
+        </div>
+      </a>
+    </li>
     <li class="integration-list-item">
       <!--
       <a href="/preview?type=dropin&intent=firstpurchase&user=document.getElementById('user').value" class="integration-list-item-link">
@@ -117,17 +131,4 @@
       </a>
     </li>
   </ul>
-  <div class="kalturauserinfo">
-    <h3>Kaltura BE Details</h3>
-    <p>
-    <label for="invokeres">invoke res:</label>
-    <input name="user" type="text" id="invokeres"/>
-    <label for="user">user:</label>
-    <input name="user" type="text" id="user"/>
-    <label for="pass">pass:</label>
-    <input name="pass" type="text" id="pass"/>
-    <label for="udid">udid:</label>
-    <input name="udid" type="text" id="udid"/>
-    </p>
-  </div>
 </div>
