@@ -213,6 +213,19 @@ async function createAdyenCheckout(session) {
         environment: "test",  // change to live for production
         showPayButton: true,
         session: session,
+
+        paymentMethodsConfiguration: {
+          card: {
+            hasHolderName: true,
+            holderNameRequired: true,
+            billingAddressRequired: true
+          },
+          twint: {
+
+          }
+        },
+
+
         /* // DEBUG
         cardConfiguration: {
             ideal: {
@@ -237,7 +250,8 @@ async function createAdyenCheckout(session) {
             }
         },
         */
-        cardConfiguration: cardConfiguration, //DEBUG
+
+        //cardConfiguration: cardConfiguration, //DEBUG
 
         onchange: (result, component) => { //DEBUG
           console.log(JSON.stringify(result));
