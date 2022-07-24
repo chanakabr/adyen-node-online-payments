@@ -197,13 +197,24 @@ async function finalizeCheckout() {
 
 async function createAdyenCheckout(session) {
 
+    const cardConfiguration = { // DEBUG
+      hasHolderName: true,
+      holderNameRequired: true,
+      enableStoreDetails: true,
+      billingAddressRequired: true, // Set to true to show the billing address input fields.
+      brands:['mc','visa','amex'],
+
+    };
+
+
     const configuration = {
         clientKey,
         locale: "en_US",
         environment: "test",  // change to live for production
         showPayButton: true,
         session: session,
-        paymentMethodsConfiguration: {
+        /* // DEBUG
+        cardConfiguration: {
             ideal: {
                 showImage: true
             },
@@ -225,6 +236,17 @@ async function createAdyenCheckout(session) {
                 countryCode: "US"   // Only needed for test. This will be automatically retrieved when you are in production.
             }
         },
+        */
+        cardConfiguration: cardConfiguration, //DEBUG
+
+        onchange: (result, component) => { //DEBUG
+          console.log(JSON.stringify(result));
+        },
+
+        onsubmit: (result, component) => { //DEBUG
+          console.log(JSON.stringify(result));
+        },
+
         onPaymentCompleted: (result, component) => {
             console.log(JSON.stringify(result));
             handleServerResponse(result, component);
