@@ -6,8 +6,9 @@ const morgan = require("morgan");
 const { uuid } = require("uuidv4");
 const { hmacValidator } = require('@adyen/api-library');
 const { Client, Config, CheckoutAPI } = require("@adyen/api-library");
+const https = require('https');
 //const kalturabeconfig = require('./kalturabeconfig.js');
-const kaltura = require('kaltura-ott-client');
+//const kaltura = require('kaltura-ott-client');
 
 //const kalturabeproxy = require('./kalturabeproxy.js');
 
@@ -37,9 +38,8 @@ const checkout = new CheckoutAPI(client);
 
 // Kaltura BE config
 const apiKalConfig = new kaltura.Configuration();
-apiKalConfig.serviceUrl = "https://api."+process.env.KAL_BE_ENV+".ott.kaltura.com/api_v3/service/";
-apiKalConfig.timeout = 10000; // 10s
-const kalClient = new kaltura.Client(apiKalConfig);
+const kal_serviceUrl = "https://api."+process.env.KAL_BE_ENV+".ott.kaltura.com/api_v3/service/";
+const kal_ks = '';
 ////
 
 
@@ -60,7 +60,8 @@ app.set("view engine", "handlebars");
 // Set Kaltura BE values
 api.post("/api/setKs", async (req,res) => {
   try {
-    kalClient.setKs (req.ks);
+    kal_ks = req.ks;
+    console.log(`kal_ks: ${kal_ks}`);
   } catch (err) {
     console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
     res.status(err.statusCode).json(err.message);
@@ -104,10 +105,46 @@ app.all("/api/handleShopperRedirectViaKalturaBE", async (req, res) => {
   }
 
   // call kaltura BE
-  const resp = kalClient.services.householdPaymentGateway.invoke(process.env.KAL_PGW_ID, 'VerifyPayment', {redirectResult: details.redirectResult })
-  console.log(`resp : ${JSON.stringify(resp)}`);
-});
+  const data = JSON.stringify({
+      apiVersion: '6.8.0',
+      ks: kal_ks,
+      paymentGatewayId: process.env.KAL_PGW_ID,
+      intent: "VerifyPayment",
+      extraParameters: [
+          {key:'redirectResult',value:details.redirectResult}
+        ]
+  });
 
+  const options = {
+    hostname: 'api.'+process.env.KAL_BE_ENV+'.ott.kaltura.com',
+    path: '/api_v3/service/householdPaymentGateway/action/invoke',
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': data.length
+    }
+  };
+
+  const req = https.request(options, (res) => {
+      let data = '';
+
+      console.log('Status Code:', res.statusCode);
+
+      res.on('data', (chunk) => {
+          data += chunk;
+      });
+
+      res.on('end', () => {
+          console.log('Body: ', JSON.parse(data));
+      });
+
+  }).on("error", (err) => {
+      console.log("Error: ", err.message);
+  });
+
+  req.write(data);
+  req.end();
+});
 
 // Handle all redirects from payment type
 app.all("/api/handleShopperRedirect", async (req, res) => {
