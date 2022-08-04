@@ -9,7 +9,6 @@ const { Client, Config, CheckoutAPI } = require("@adyen/api-library");
 const https = require('https');
 //const kalturabeconfig = require('./kalturabeconfig.js');
 //const kaltura = require('kaltura-ott-client');
-
 //const kalturabeproxy = require('./kalturabeproxy.js');
 
 // init app
@@ -37,12 +36,9 @@ client.setEnvironment("TEST");  // change to LIVE for production
 const checkout = new CheckoutAPI(client);
 
 // Kaltura BE config
-const apiKalConfig = new kaltura.Configuration();
 const kal_serviceUrl = "https://api."+process.env.KAL_BE_ENV+".ott.kaltura.com/api_v3/service/";
 const kal_ks = '';
 ////
-
-
 
 app.engine(
   "handlebars",
@@ -67,7 +63,6 @@ api.post("/api/setKs", async (req,res) => {
     res.status(err.statusCode).json(err.message);
   }
 });
-
 
 
 // Invoke /sessions endpoint
