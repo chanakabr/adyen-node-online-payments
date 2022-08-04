@@ -14,7 +14,10 @@ const redirectResult = urlParams.get('redirectResult');
 // Kalutra params -- FILL
 // const username = user; //"frs1_cbrtest_1650554741";
 // const password = pass; //"123456";
-// const udid = "80B464A89BE047F186D7040F7AE33FBC";
+const ks = "xxx";
+
+const setKs = await callServer("/api/setKs",{ks:ks});
+
 
 async function startCheckout() {
   try {
@@ -64,107 +67,7 @@ async function startCheckoutWithKaltura() {
         console.log(`INVALID INVOKERES DECODED`);
       }
     }
-    /*else if (username !== null && password !== null && udid != null){
-      // Create Kaltura Request Payload
-      var url = 'https://api.frs1.ott.kaltura.com/api_v3/service/ottuser/action/login';
-      var payload = {
-        "apiVersion": "6.8.0",
-        "extra_params": {},
-        "partnerId": 3223,
-        "password": password,
-        "udid": udid,
-        "username": username
-      }
-      const loginres = await callServer(url, payload);
-      console.log(JSON.stringify(loginres));
 
-      var ks = loginres.result.loginSession.ks;
-      var userId = loginres.result.user.id;
-      var householdId = loginres.result.user.householdId;
-
-      var url = 'https://api.frs1.ott.kaltura.com/api_v3/service/householdPaymentGateway/action/invoke'
-      var payload = {
-        "apiVersion": "6.8.0",
-        "extraParameters": [
-            {
-                "key": "UserId",
-                "value": userId
-            },
-            {
-                "key": "householdId",
-                "value": householdId
-            },
-            {
-                "key": "contentId",
-                "value": 0
-            },
-            {
-                "key": "ProductId",
-                "value": 123457003
-            },
-            {
-                "key": "paymentAmount",
-                "value": 7.9
-            },
-            {
-                "key": "currencyCode",
-                "value": "CHF"
-            },
-            {
-                "key": "transactionType",
-                "value": "subscription"
-            },
-            {
-                "key": "shopperEmail",
-                "value": "frs1_cbrtest_1649686841@mailinator.com"
-            },
-            {
-                "key": "merchantReturnData",
-                "value": "12345"
-            },
-            {
-                "key": "couponCode",
-                "value": ""
-            },
-            {
-                "key": "countryCode",
-                "value": "CH"
-            }
-        ],
-        "intent": "FirstPurchase",
-        "ks": ks,
-        "paymentGatewayId": 551
-      }
-
-      if ( intent === 'addcard' ) {
-        payload['intent'] = 'AddCard'
-      }
-
-      console.log(`INVOKE:`)
-      console.log(url);
-      console.log(JSON.stringify(payload));
-      const invokeres = await callServer(url, payload);
-      console.log(JSON.stringify(invokeres));
-
-      if ('result' in invokeres && 'paymentGatewayConfiguration' in invokeres.result) {
-        invokeres.result.paymentGatewayConfiguration.forEach((entry) => {
-          var k0 = ""
-          var v0 = ""
-          Object.entries(entry).forEach(([key, value]) => {
-            if (key==="key") {
-              k0 = value;
-            }
-            if (key==="value"){
-              v0 = value;
-            }
-            console.log(`${key}: ${value}`);
-          });
-          console.log(`${k0}:::${v0}`)
-          session[k0]=v0;
-        });
-      }
-    }
-    */
     console.log(session);
 
     // Create AdyenCheckout using Sessions response
@@ -218,7 +121,9 @@ async function createAdyenCheckout(session) {
           card: {
             hasHolderName: true,
             holderNameRequired: true,
-            billingAddressRequired: true
+            billingAddressRequired: false,// Set to true to show the billing address input fields.
+            enableStoreDetails: true,
+            brands:['mc','visa','amex'],
           },
           twint: {
 
@@ -350,6 +255,8 @@ console.log("pass:");
 console.log(pass);
 console.log("udid:");
 console.log(udid); */
+
+
 
 
 if (!sessionId) {

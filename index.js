@@ -7,6 +7,8 @@ const { uuid } = require("uuidv4");
 const { hmacValidator } = require('@adyen/api-library');
 const { Client, Config, CheckoutAPI } = require("@adyen/api-library");
 const kalturabeconfig = require('./kalturabeconfig.js');
+const kalturabe = require('kaltura-ott-client');
+
 //const kalturabeproxy = require('./kalturabeproxy.js');
 
 // init app
@@ -33,6 +35,15 @@ const client = new Client({ config });
 client.setEnvironment("TEST");  // change to LIVE for production
 const checkout = new CheckoutAPI(client);
 
+// Kaltura BE config
+const apiKalConfig = new kaltura.Configuration();
+apiKalConfig.serviceUrl = "https://api."+process.env.KAL_BE_ENV+".ott.kaltura.com/api_v3/service/";
+apiKalConfig.timeout = 10000; // 10s
+const kalClient = new Kaltura.Client(apiKalConfig);
+////
+
+
+
 app.engine(
   "handlebars",
   hbs({
@@ -45,6 +56,18 @@ app.engine(
 app.set("view engine", "handlebars");
 
 /* ################# API ENDPOINTS ###################### */
+
+// Set Kaltura BE values
+api.post("/api/setKs", async (req,res) => {
+  try {
+    kalClient.setKs (req.ks);
+  } catch (err) {
+    console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
+    res.status(err.statusCode).json(err.message);
+  }
+});
+
+
 
 // Invoke /sessions endpoint
 app.post("/api/sessions", async (req, res) => {
