@@ -36,7 +36,7 @@ client.setEnvironment("TEST");  // change to LIVE for production
 const checkout = new CheckoutAPI(client);
 
 // Kaltura BE config
-const kal_serviceUrl = "https://api."+process.env.KAL_BE_ENV+".ott.kaltura.com/api_v3/service/";
+//const kal_serviceUrl = "https://api."+process.env.KAL_BE_ENV+".ott.kaltura.com/api_v3/service/";
 const kal_ks = '';
 ////
 
@@ -54,7 +54,7 @@ app.set("view engine", "handlebars");
 /* ################# API ENDPOINTS ###################### */
 
 // Set Kaltura BE values
-api.post("/api/setKs", async (req,res) => {
+app.post("/api/setKs", async (req,res) => {
   try {
     kal_ks = req.ks;
     console.log(`kal_ks: ${kal_ks}`);
