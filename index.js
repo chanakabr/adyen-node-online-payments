@@ -7,7 +7,7 @@ const { uuid } = require("uuidv4");
 const { hmacValidator } = require('@adyen/api-library');
 const { Client, Config, CheckoutAPI } = require("@adyen/api-library");
 const kalturabeconfig = require('./kalturabeconfig.js');
-const kalturabe = require('kaltura-ott-client');
+const kaltura = require('kaltura-ott-client');
 
 //const kalturabeproxy = require('./kalturabeproxy.js');
 
