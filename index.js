@@ -91,6 +91,22 @@ app.post("/api/sessions", async (req, res) => {
   }
 });
 
+// Handle the shopperRedirectViaKaltura
+app.all("/api/handleShopperRedirectViaKalturaBE", async (req, res) => {
+  const redirect = req.method === "GET" ? req.query : req.body;
+  const details = {};
+  if (redirect.redirectResult) {
+    details.redirectResult = redirect.redirectResult;
+    console.log(`redirect.redirectResult : ${redirect.redirectResult}`)
+  } else if (redirect.payload) {
+    details.payload = redirect.payload;
+    console.log(`redirect.payload : ${redirect.payload}`)
+  }
+
+  // call kaltura BE
+  const resp = kalClient.services.householdPaymentGateway.invoke(process.env.KAL_PGW_ID, 'VerifyPayment', {redirectResult: details.redirectResult })
+  console.log(`resp : ${JSON.stringify(resp)}`);
+});
 
 
 // Handle all redirects from payment type
