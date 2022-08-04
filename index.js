@@ -39,7 +39,7 @@ const checkout = new CheckoutAPI(client);
 const apiKalConfig = new kaltura.Configuration();
 apiKalConfig.serviceUrl = "https://api."+process.env.KAL_BE_ENV+".ott.kaltura.com/api_v3/service/";
 apiKalConfig.timeout = 10000; // 10s
-const kalClient = new Kaltura.Client(apiKalConfig);
+const kalClient = new kaltura.Client(apiKalConfig);
 ////
 
 
