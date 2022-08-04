@@ -125,16 +125,16 @@ app.all("/api/handleShopperRedirectViaKalturaBE", async (req, res) => {
     }
   };
 
-  const req = https.request(options, (res) => {
+  const request = https.request(options, (response) => {
       let data = '';
 
-      console.log('Status Code:', res.statusCode);
+      console.log('Status Code:', response.statusCode);
 
-      res.on('data', (chunk) => {
+      response.on('data', (chunk) => {
           data += chunk;
       });
 
-      res.on('end', () => {
+      response.on('end', () => {
           console.log('Body: ', JSON.parse(data));
       });
 
@@ -142,8 +142,8 @@ app.all("/api/handleShopperRedirectViaKalturaBE", async (req, res) => {
       console.log("Error: ", err.message);
   });
 
-  req.write(data);
-  req.end();
+  request.write(data);
+  request.end();
 });
 
 // Handle all redirects from payment type
