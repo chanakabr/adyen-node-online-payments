@@ -5,6 +5,7 @@ const type = document.getElementById("type").innerHTML;
 //const pass = document.getElementById("pass").innerHTML;
 //const udid = document.getElementById("udid").innerHTML;
 const invokeres = document.getElementById("invokeres").innerHTML;
+const ks = document.getElementById("ks").innerHTML;
 
 // Used to finalize a checkout call in case of redirect
 const urlParams = new URLSearchParams(window.location.search);
@@ -14,9 +15,8 @@ const redirectResult = urlParams.get('redirectResult');
 // Kalutra params -- FILL
 // const username = user; //"frs1_cbrtest_1650554741";
 // const password = pass; //"123456";
-const ks = "xxx";
 
-const setKs = await callServer("/api/setKs",{ks:ks});
+//const setKs = callServer("/api/setKs",{ks:ks});
 
 
 async function startCheckout() {
@@ -39,6 +39,11 @@ async function startCheckout() {
 
 async function startCheckoutWithKaltura() {
   try {
+
+    // set ks for the BE
+    console.log(`ks:${ks}`);
+    //const setKs = await callServer("/api/setKs",{ks:ks});
+
     // Build the checkoutSession
     var session = {}
 
@@ -127,7 +132,10 @@ async function createAdyenCheckout(session) {
           },
           twint: {
 
-          }
+          },
+          threeDS2: { // Add threeDS2
+            challengeWindowSize: '05'
+          },
         },
 
 
@@ -248,6 +256,7 @@ console.log(invokeres);
 console.log('invokeres decoded:');
 console.log(JSON.parse(decodeURIComponent(window.atob( invokeres ))))
 console.log("intent:");
+console.log(`ks:${ks}`);
 /* console.log(intent);
 console.log("user:");
 console.log(user);

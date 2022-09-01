@@ -37,7 +37,8 @@ const checkout = new CheckoutAPI(client);
 
 // Kaltura BE config
 //const kal_serviceUrl = "https://api."+process.env.KAL_BE_ENV+".ott.kaltura.com/api_v3/service/";
-const kal_ks = '';
+const kal_ks = process.env.KAL_KS;
+const kal_userid = process.env.KAL_USER_ID;
 ////
 
 app.engine(
@@ -91,6 +92,7 @@ app.post("/api/sessions", async (req, res) => {
 app.all("/api/handleShopperRedirectViaKalturaBE", async (req, res) => {
   const redirect = req.method === "GET" ? req.query : req.body;
   const details = {};
+  console.log(`INSIDE handleShopperRedirectViaKalturaBE`);
   if (redirect.redirectResult) {
     details.redirectResult = redirect.redirectResult;
     console.log(`redirect.redirectResult : ${redirect.redirectResult}`)
@@ -106,7 +108,8 @@ app.all("/api/handleShopperRedirectViaKalturaBE", async (req, res) => {
       paymentGatewayId: process.env.KAL_PGW_ID,
       intent: "VerifyPayment",
       extraParameters: [
-          {key:'redirectResult',value:details.redirectResult}
+          {key:'UserId',value:kal_userid},
+          {key:'redirectResult',value:details.redirectResult},
         ]
   });
 
@@ -131,6 +134,7 @@ app.all("/api/handleShopperRedirectViaKalturaBE", async (req, res) => {
 
       response.on('end', () => {
           console.log('Body: ', JSON.parse(data));
+          console.log(response.headers['X-Kaltura-Session']);
       });
 
   }).on("error", (err) => {

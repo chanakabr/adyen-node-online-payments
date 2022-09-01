@@ -16,12 +16,13 @@
     <p>
     <label for="invokeres">invoke res in base64:</label>
     <textarea id="invokeres" name="invokeres" rows="30" cols="100"></textarea>
-    <textarea id="ks" name="ks" rows="30" cols="100"></textarea>
+    <label for="ks">userks:</label>
+    <textarea id="ks" name="ks" rows="5" cols="100"></textarea>
     </p>
   </div>
   <ul class="integration-list">
     <li class="integration-list-item">
-    <a href="javascript:;" onclick = "this.href='/checkout?type=dropin&intent=firstpurchase&invokeres=' + document.getElementById('invokeres').value + 'ks=' + document.getElementById('ks').value" class="integration-list-item-link">
+    <a href="javascript:;" onclick = "this.href='/checkout?type=dropin&intent=firstpurchase&invokeres=' + document.getElementById('invokeres').value + '&ks=' + document.getElementById('ks').value" class="integration-list-item-link">
         <div class="title-container">
           <p class="integration-list-item-title">Checkout-DropIn</p>
         </div>
