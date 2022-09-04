@@ -123,17 +123,22 @@ async function createAdyenCheckout(session) {
         session: session,
 
         paymentMethodsConfiguration: {
-          card: {
+/*           card: {
             hasHolderName: true,
             holderNameRequired: true,
             billingAddressRequired: false,// Set to true to show the billing address input fields.
             enableStoreDetails: true,
             brands:['mc','visa','amex'],
+          } */
+          card: {
+            hasHolderName: true,
+            holderNameRequired: true,
+            billingAddressRequired: true
           },
           twint: {
 
           },
-          threeDS2: { // Add threeDS2
+          threeDS2: { // add 3DS
             challengeWindowSize: '05'
           },
         },
