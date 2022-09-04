@@ -105,16 +105,6 @@ async function finalizeCheckout() {
 
 async function createAdyenCheckout(session) {
 
-    const cardConfiguration = { // DEBUG
-      hasHolderName: true,
-      holderNameRequired: true,
-      enableStoreDetails: true,
-      billingAddressRequired: true, // Set to true to show the billing address input fields.
-      brands:['mc','visa','amex'],
-
-    };
-
-
     const configuration = {
         clientKey,
         locale: "en_US",
@@ -123,17 +113,8 @@ async function createAdyenCheckout(session) {
         session: session,
 
         paymentMethodsConfiguration: {
-/*           card: {
-            hasHolderName: true,
-            holderNameRequired: true,
-            billingAddressRequired: false,// Set to true to show the billing address input fields.
-            enableStoreDetails: true,
-            brands:['mc','visa','amex'],
-          } */
           card: {
             hasHolderName: true,
-            holderNameRequired: true,
-            billingAddressRequired: true
           },
           twint: {
 
@@ -142,34 +123,6 @@ async function createAdyenCheckout(session) {
             challengeWindowSize: '05'
           },
         },
-
-
-        /* // DEBUG
-        cardConfiguration: {
-            ideal: {
-                showImage: true
-            },
-            card: {
-                hasHolderName: true,
-                holderNameRequired: true,
-                name: "Credit or debit card",
-                amount: {
-                    value: 1000,
-                    currency: "EUR"
-                }
-            },
-            paypal: {
-                amount: {
-                    currency: "USD",
-                    value: 1000
-                },
-                environment: "test",
-                countryCode: "US"   // Only needed for test. This will be automatically retrieved when you are in production.
-            }
-        },
-        */
-
-        //cardConfiguration: cardConfiguration, //DEBUG
 
         onchange: (result, component) => { //DEBUG
           console.log(JSON.stringify(result));
