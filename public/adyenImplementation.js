@@ -115,6 +115,7 @@ async function createAdyenCheckout(session) {
         paymentMethodsConfiguration: {
           card: {
             hasHolderName: true,
+            showStoredPaymentMethods: false // hide paymentMethods
           },
           twint: {
 
