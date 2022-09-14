@@ -111,11 +111,11 @@ async function createAdyenCheckout(session) {
         environment: "test",  // change to live for production
         showPayButton: true,
         session: session,
+        showStoredPaymentMethods: false, // hide paymentMethods
 
         paymentMethodsConfiguration: {
           card: {
-            hasHolderName: true,
-            showStoredPaymentMethods: false // hide paymentMethods
+            hasHolderName: true
           },
           twint: {
 
