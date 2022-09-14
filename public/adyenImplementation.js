@@ -79,7 +79,7 @@ async function startCheckoutWithKaltura() {
     const checkout = await createAdyenCheckout(session)
 
     // Create an instance of Drop-in and mount it
-    checkout.create(type).mount(document.getElementById(type));
+    checkout.create(type,{showStoredPaymentMethods:false}).mount(document.getElementById(type));
 
   } catch (error) {
     console.error(error);
